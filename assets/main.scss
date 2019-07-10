@@ -1,0 +1,12 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+header div.wrapper { 
+  background: url(img/pathmatics-logo.png) no-repeat;
+  background-repeat: no-repeat;
+  background-size: 20px 31px;
+  background-position: left center;
+  #background-origin: content-box;
+}
