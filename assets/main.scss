@@ -14,3 +14,19 @@ header div.wrapper {
 a.site-title {
   padding-left: 26px;
 }
+
+@media screen and (max-width: 380px)
+{
+  a.site-title
+  {
+    font-size: 23px;
+  }
+}
+
+@media screen and (max-width: 320px)
+{
+  a.site-title
+  {
+    font-size: 19px;
+  }
+}
