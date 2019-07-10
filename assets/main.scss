@@ -8,5 +8,9 @@ header div.wrapper {
   background-repeat: no-repeat;
   background-size: 20px 31px;
   background-position: left center;
-  #background-origin: content-box;
+  background-origin: content-box;
+}
+
+a.site-title {
+  padding-left: 26px;
 }
