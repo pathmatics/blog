@@ -1,10 +1,14 @@
 ---
 layout: post
-title:  "How to Build Chromium Package in Ubuntu"
+title:  "How to a Build Specific Chromium Version Package in Ubuntu"
 date:   2019-07-10 16:00:00 -0600
 categories: chromium debian ubuntu linux
 ---
-At Pathmatics, we leverage the open source Chromium browser in a lot of our tools. We fix on a particular version and then need to modify the source code in some way. This requires building custom Chromium packages for Ubuntu. Here I'll document how you accomplish that:
+At Pathmatics, we leverage the open source Chromium browser in a lot of our tools. Early on we realized we'd love to be able to tweak certain browser behaviors, which led us to trying to figure out how to build Chromium ourselves. Adding to this difficulty is that we want to fix on a particular public release of Chromium (one that matches the public Chrome releases).
+
+There are a lot of guides across the web on how to build Chromium (start with the offical one here [Build Chromium](https://www.chromium.org/developers/how-tos/get-the-code)), but if you need to fix on a particular version, things get harder, and aren't documented nearly as well.
+
+Here is the procedure we use (generally we spin up an instance in AWS to run our build):
 
 *This example was exectued on an AWS EC2 Ubuntu 18.04 instance sized i3.4xl*
 
@@ -12,6 +16,8 @@ First, switch to root:
 ```bash
 sudo su
 ```
+
+*root isn't strictly required beyond installing package dependencies*
 
 Next, install the required build packages:
 ```bash
@@ -55,10 +61,11 @@ mkfs -t ext4 /dev/md127
 mount /dev/md127 /mnt
 cd /mnt
 ```
+Ok, at this point we are ready to pull down the source code and run the build!
 
 From here on out, we'll assume you are going to build from the `/mnt` folder.
 
-Now, you need to determine what version of the Chromium packages you want to build. We recommend you go with the latest stable, unless you have a good reason not too. Each successive version has security fixes that could leave you vulnerable if you run an older version. Navigate to the repo corresponding to your [Ubuntu distro for Chromium](https://bazaar.launchpad.net/~chromium-team/chromium-browser/bionic-stable/changes) and select the tag you want to build from. In our example, we'll build `69.0.3497.81-0ubuntu0.18.04.1`.
+If you want to fix on a particular version, find the Bazaar repo for your particular release (here is the repo for 18.04 [Ubuntu distro for Chromium](https://bazaar.launchpad.net/~chromium-team/chromium-browser/bionic-stable/changes) and select the tag you want to build from. In our example, we'll build `69.0.3497.81-0ubuntu0.18.04.1`.
 
 Pull down the source code like so:
 ```bash
@@ -73,7 +80,7 @@ To build and package:
 dpkg-buildpackage -rfakeroot -uc -b
 ```
 
-Assuming all went well, your packages should be located in /mnt
+Assuming all went well, your packages should be located in /mnt. Enjoy your fancy custom Chromium!
 
 
 
